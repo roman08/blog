@@ -12,5 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	//metodo ordena las fechas de la ultima a la primera
+	$posts = App\Post::latest('published_at')->get();
+    return view('welcome')->with(compact('posts'));
+});
+
+
+Route::get('posts',function(){
+	return App\Post::all();
 });
