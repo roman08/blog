@@ -11,20 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-	//metodo ordena las fechas de la ultima a la primera
-	$posts = App\Post::latest('published_at')->get();
-    return view('welcome')->with(compact('posts'));
+Route::get('/', 'PagesController@index');
+
+//Rutas de administración
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function(){
+    
+    Route::name('index.posts')->get('/posts','PostController@index');
+    
 });
 
 
-Route::get('posts',function(){
-	return App\Post::all();
-});
-
-Route::get('home', function(){
-	return view('admin.dashboard');
-})->middleware('auth');
+Route::get('home', 'HomeController@index');
 
         // Authentication Routes...
         Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
