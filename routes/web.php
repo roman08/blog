@@ -17,11 +17,13 @@ Route::get('/', 'PagesController@index');
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function(){
     
     Route::name('index.posts')->get('/posts','PostController@index');
+    Route::name('admin.index')->get('/', 'AdminController@index');
+    Route::name('admin.post.create')->get('/posts/create','PostController@create');
     
 });
 
 
-Route::get('home', 'HomeController@index');
+
 
         // Authentication Routes...
         Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');

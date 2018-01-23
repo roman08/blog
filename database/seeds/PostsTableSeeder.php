@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Post;
 use App\Category;
 use  Carbon\Carbon;
+use App\User;
 class PostsTableSeeder extends Seeder
 {
     /**
@@ -15,6 +16,12 @@ class PostsTableSeeder extends Seeder
     {
     	Post::truncate();
     	Category::truncate();
+        User::truncate();
+        User::create([
+        'name' => 'Varekay',
+        'email' => 'rmcentinela@gmail.com',
+        'password' => bcrypt('123456'),
+        ]);
 
     	$category = new Category;
 
