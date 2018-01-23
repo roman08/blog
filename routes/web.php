@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', 'PagesController@index');
+Route::get('/', 'PagesController@index')->name('home');
+Route::get('/blog/{post}','PostController@show')->name('blog');
 
 //Rutas de administración
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function(){
@@ -22,7 +23,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::name('admin.post.store')->post('/posts/store','PostController@store');
     
 });
-
 
 
 

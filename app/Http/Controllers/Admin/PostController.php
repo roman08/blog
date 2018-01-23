@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use Carbon\Carbon;
+
 use App\Category;
 use App\Post;
 use App\Tag;
@@ -40,7 +43,29 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        //dd($request->all());
+        //validaion
+        $this->validate($request,[
+            'title' => 'required',
+            'body' => 'required',
+            'category' => 'required',
+            'excerpt' => 'required',
+            'tags' => 'required'
+            ]);
+        $post = new Post;
+
+        $post->title = $request->title;
+        $post->url = str_slug($request->title);
+        $post->body = $request->body;
+        $post->excerpt = $request->excerpt;
+        $post->published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
+        $post->category_id = $request->category;
+        $post->save();
+
+        $post->tags()->attach($request->tags);
+
+        return back()->with('flash','Tu publicación ha sido creada');
+               
     }
 
     /**

@@ -19,13 +19,16 @@
     <div class="col-md-8">
       <div class="box box-primary">
           <div class="box-body">
-            <div class="form-group">
+            <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
               <label for="">Título de la Publicación</label>
-              <input name="title" placeholder="Ingresa aquí el nombre de la publicación" type="text" class="form-control">
+              <input name="title" placeholder="Ingresa aquí el nombre de la publicación" type="text" class="form-control" value="{{ old('title') }}">
+
+              {!! $errors->first('title','<span class="help-block">:message</span>') !!}
             </div>
-            <div class="form-group">
+            <div class="form-group {{ $errors->has('body') ? 'has-error' : '' }}">
               <label for="">Contenido de la Publicación</label>
-              <textarea name="body" id="editor" cols="2" rows="4" class="form-control" placeholder="Ingrese el contenido completo de la publicación"></textarea>
+              <textarea name="body" id="editor" cols="2" rows="4" class="form-control" placeholder="Ingrese el contenido completo de la publicación">{{ old('body') }}</textarea>
+              {!! $errors->first('body','<span class="help-block">:message</span>') !!}
             </div>
           </div>
       </div>
@@ -39,31 +42,40 @@
               <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
               </div>
-              <input name="publised_at" type="text" class="form-control pull-right" id="datepicker">
+              <input name="published_at" type="text" class="form-control pull-right" id="datepicker" value="{{ old('published_at') }}">
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group {{ $errors->has('category') ? 'has-error' : '' }}">
             <label for="">Categorías</label>
             <select name="category" id="" class="form-control">
               <option value="">Selecciona una categoría</option>
               @foreach ($categories as $category)
-                <option value="{{ $category->id}}">{{ $category->name }}</option>
+                <option value="{{ $category->id}}"
+                {{ old('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
               @endforeach
             </select>
+            {!! $errors->first('category','<span class="help-block">:message</span>') !!}
           </div>
-          <div class="form-group">
+          <div class="form-group {{ $errors->has('tags') ? 'has-error' : '' }}">
             <label for="">Etiquetas</label>
-            <select name="tags" class="form-control select2"
+            <select name="tags[]" class="form-control select2"
                   multiple="multiple" 
                   data-placeholder="Selecciona una o más etiquetas" style="width: 100%;">
                   @foreach ($tags as $tag)
-                    <option value="{{ $tag->id}}">{{ $tag->name}}</option>
+                    <option
+                    {{ collect(old('tags'))->contains($tag->id) ? 'selected' : '' }}
+                     value="{{ $tag->id}}">{{ $tag->name}}</option>
                   @endforeach
-                </select>
+              </select>
+            {!! $errors->first('tags','<span class="help-block">:message</span>') !!}
+
           </div>
-          <div class="form-group">
+          <div class="form-group {{ $errors->has('excerpt') ? 'has-error' : '' }}">
               <label for="">Extracto de la Publicación</label>
-              <textarea name="excerpt" id="excerpt" cols="2" rows="2" class="form-control" placeholder="Ingrese un extracto de la publicación"></textarea>
+              <textarea name="excerpt" id="excerpt" cols="2" rows="2" class="form-control" placeholder="Ingrese un extracto de la publicación">{{ old('excerpt') }}</textarea>
+
+            {!! $errors->first('excerpt','<span class="help-block">:message</span>') !!}
+
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">Guardar publicación</button>

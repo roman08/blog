@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
-class PagesController extends Controller
+
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,9 +14,7 @@ class PagesController extends Controller
      */
     public function index()
     {
-
-        $posts = Post::published()->get();
-        return view('welcome')->with(compact('posts'));
+        //
     }
 
     /**
@@ -45,9 +44,9 @@ class PagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return view('posts.show')->with(compact('post'));
     }
 
     /**
