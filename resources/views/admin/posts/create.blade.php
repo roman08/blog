@@ -14,7 +14,8 @@
 
 @section('content')
 <div class="row">
-  <form action="">
+  <form action="{{ route('admin.post.store') }}" method="post">
+    {{ csrf_field()}}
     <div class="col-md-8">
       <div class="box box-primary">
           <div class="box-body">
@@ -24,7 +25,7 @@
             </div>
             <div class="form-group">
               <label for="">Contenido de la Publicación</label>
-              <textarea name="body" id="body" cols="2" rows="4" class="form-control" placeholder="Ingrese el contenido completo de la publicación"></textarea>
+              <textarea name="body" id="editor" cols="2" rows="4" class="form-control" placeholder="Ingrese el contenido completo de la publicación"></textarea>
             </div>
           </div>
       </div>
@@ -43,12 +44,22 @@
           </div>
           <div class="form-group">
             <label for="">Categorías</label>
-            <select name="" id="" class="form-control">
+            <select name="category" id="" class="form-control">
               <option value="">Selecciona una categoría</option>
               @foreach ($categories as $category)
                 <option value="{{ $category->id}}">{{ $category->name }}</option>
               @endforeach
             </select>
+          </div>
+          <div class="form-group">
+            <label for="">Etiquetas</label>
+            <select name="tags" class="form-control select2"
+                  multiple="multiple" 
+                  data-placeholder="Selecciona una o más etiquetas" style="width: 100%;">
+                  @foreach ($tags as $tag)
+                    <option value="{{ $tag->id}}">{{ $tag->name}}</option>
+                  @endforeach
+                </select>
           </div>
           <div class="form-group">
               <label for="">Extracto de la Publicación</label>
@@ -63,3 +74,34 @@
   </form>
 </div>
 @endsection
+
+@push('styles')
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="/adminlte/css/datepicker3.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="/adminlte/css/select2.min.css">
+@endpush
+
+@push('scripts')
+  <!-- CK Editor -->
+  <script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
+  <script src="/adminlte/js/bootstrap-datepicker.js"></script>
+  <!-- Select2 -->
+<script src="/adminlte/js/select2.full.min.js"></script>
+  <script>
+    //Date picker
+    $('#datepicker').datepicker({
+      autoclose: true
+    });
+
+    $('.select2').select2();
+    CKEDITOR.replace('editor');
+
+  </script>
+@endpush
+
+
+
+
+
+

@@ -16,9 +16,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Ionicons -->
   <link rel="stylesheet" href="/adminlte/Ionicons/css/ionicons.min.css">
 
-  <!-- DataTables -->
-  <link rel="stylesheet" href="/adminlte/css/dataTables.bootstrap.css">
 
+  
+  @stack('styles')
   <!-- Theme style -->
   <link rel="stylesheet" href="/adminlte/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -379,10 +379,9 @@ desired effect
 <!-- Bootstrap 3.3.7 -->
 <script src="/adminlte/bootstrap/dist/js/bootstrap.min.js"></script>
 
-<!-- DataTables -->
-<script src="/adminlte/js/jquery.dataTables.min.js"></script>
-<script src="/adminlte/js/dataTables.bootstrap.min.js"></script>
 
+
+  @stack('scripts')
 <!-- AdminLTE App -->
 <script src="/adminlte/js/adminlte.min.js"></script>
 

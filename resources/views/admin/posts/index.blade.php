@@ -49,3 +49,15 @@
           </div>
           <!-- /.box -->	
 @endsection
+
+
+@push('styles')
+  <!-- DataTables -->
+  <link rel="stylesheet" href="/adminlte/css/dataTables.bootstrap.css">
+@endpush
+
+@push('scripts')
+  <!-- DataTables -->
+<script src="/adminlte/js/jquery.dataTables.min.js"></script>
+<script src="/adminlte/js/dataTables.bootstrap.min.js"></script>
+@endpush
