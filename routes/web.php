@@ -21,6 +21,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::name('admin.index')->get('/', 'AdminController@index');
     Route::name('admin.post.create')->get('/posts/create','PostController@create');
     Route::name('admin.post.store')->post('/posts/store','PostController@store');
+
+    Route::name('admin.post.edit')->get('/post/edit/{post}','PostController@edit');
+    Route::name('admin.post.update')->put('/post/update/{post}','PostController@update');
+    Route::name('admin.post.photos.store')->post('/posts/{post}/photos','PhotosController@store');
     
 });
 

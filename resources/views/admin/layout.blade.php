@@ -385,10 +385,10 @@ desired effect
 
 
 
-  @stack('scripts')
+  
 <!-- AdminLTE App -->
 <script src="/adminlte/js/adminlte.min.js"></script>
-
+@stack('scripts')
 <!-- page script -->
 <script>
   $(function () {
@@ -403,8 +403,6 @@ desired effect
     })
   })
 </script>
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. -->
+  @include('admin.posts.create')
 </body>
 </html>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Tag;
 use App\Post;
 use App\Category;
 use  Carbon\Carbon;
@@ -17,6 +18,7 @@ class PostsTableSeeder extends Seeder
     	Post::truncate();
     	Category::truncate();
         User::truncate();
+        Tag::truncate();
         User::create([
         'name' => 'Varekay',
         'email' => 'rmcentinela@gmail.com',
@@ -44,6 +46,8 @@ class PostsTableSeeder extends Seeder
         $post->category_id = 1;
         $post->save();
 
+        $post->tags()->attach(Tag::create(['name' => 'Etiqueta 1']));
+
         $post = new Post;
 
         $post->title = 'Mi segundo post';
@@ -53,6 +57,8 @@ class PostsTableSeeder extends Seeder
         $post->published_at = Carbon::now()->subDays(3);
         $post->category_id = 1;
         $post->save();
+
+        $post->tags()->attach(Tag::create(['name' => 'Etiqueta 2']));
 
         $post = new Post;
 
@@ -64,6 +70,8 @@ class PostsTableSeeder extends Seeder
         $post->category_id = 2;
         $post->save();
 
+        $post->tags()->attach(Tag::create(['name' => 'Etiqueta 3']));
+
         $post = new Post;
 
         $post->title = 'Mi cuarto post';
@@ -73,5 +81,7 @@ class PostsTableSeeder extends Seeder
         $post->published_at = Carbon::now()->subDays(1);
         $post->category_id = 2;
         $post->save();
+
+        $post->tags()->attach(Tag::create(['name' => 'Etiqueta 4']));
     }
 }
