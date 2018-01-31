@@ -3,7 +3,16 @@
 @section('meta-title', $post->title)
 @section('meta-description', $post->excerpt)
 @section('content')
-	  <article class="post image-w-text container">
+	  <article class="post container">
+	  	@if ($post->photos->count() === 1)
+                    <figure><img src="{{ $post->photos->first()->url}}" alt="" class="img-responsive"></figure>
+                @elseif($post->photos->count() > 1)
+                    @include('posts.carousel')
+                @elseif($post->iframe)
+                    <div class="video">
+                        {!! $post->iframe !!}
+                    </div>
+                @endif
 	    <div class="content-post">
 	      <header class="container-flex space-between">
 	        <div class="date">
@@ -23,7 +32,7 @@
 	          <div class="buttons-social-media-share">
 	            <ul class="share-buttons">
 	              
-	              <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ request()->fullUrl() }}&t={{ $post->title }}" title="Compartit en Facebook" target="_blank"><img alt="Compartit en Facebook" src="/img/flat_web_icon_set/Facebook.png"></a></li>
+	              <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ request()->fullUrl() }}&t={{ $post->title }}" title="Compartir en Facebook" target="_blank"><img alt="Compartit en Facebook" src="/img/flat_web_icon_set/Facebook.png"></a></li>
 	              
 	              <li><a href="https://twitter.com/intent/tweet?url={{ request()->fullUrl() }}&text={{ $post->title }}&via=varekay88&hashtags=Zemdero" target="_blank" title="Tweet"><img alt="Tweet" src="/img/flat_web_icon_set/Twitter.png"></a></li>
 	              
@@ -48,7 +57,16 @@
 	  </article>
 @endsection
 
+@push('styles')
+	<link rel="stylesheet" href="/css/twitter-bootstrap.css">
+@endpush
 
-@push('scrits')
+
+@push('scripts')
+	<script
+			  src="http://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous"></script>
+	<script src="/js/twitter-bootstrap.js"></script>
 	<script id="dsq-count-scr" src="//zendero.disqus.com/count.js" async></script>
 @endpush

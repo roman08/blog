@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'PagesController@index')->name('home');
-Route::get('/blog/{post}','PostController@show')->name('blog');
+Route::get('/blog/{post}','PostController@show')->name('posts.show');
 
 //Rutas de administración
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function(){
@@ -25,6 +25,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::name('admin.post.edit')->get('/post/edit/{post}','PostController@edit');
     Route::name('admin.post.update')->put('/post/update/{post}','PostController@update');
     Route::name('admin.post.photos.store')->post('/posts/{post}/photos','PhotosController@store');
+    Route::name('admin.photos.destroy')->delete('/photos/{photo}/destroy','PhotosController@destroy');
     
 });
 

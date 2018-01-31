@@ -14,6 +14,24 @@
 
 @section('content')
 <div class="row">
+  @if ($post->photos->count() > 0)
+    <div class="col-md-12">
+      <div class="box box-primary">
+        <div class="box-body">
+          @foreach($post->photos as $photo)
+            <form method="POST" action="{{ route('admin.photos.destroy', $photo) }}">
+              {{ method_field('DELETE')}}
+              {{ csrf_field() }}
+              <div class="col-md-2">
+                <button class="btn btn-danger btn-xs" style="position: absolute;"><i class="fa fa-remove"></i></button>
+                <img src="{{ url($photo->url) }}" alt="" class="img-responsive">
+              </div>
+            </form>
+          @endforeach
+        </div>
+      </div>
+    </div>
+  @endif
   <form action="{{ route('admin.post.update', $post) }}" method="post">
     {{ csrf_field()}}
     {{ method_field('PUT')}}
@@ -28,8 +46,13 @@
             </div>
             <div class="form-group {{ $errors->has('body') ? 'has-error' : '' }}">
               <label for="">Contenido de la Publicación</label>
-              <textarea name="body" id="editor" cols="2" rows="4" class="form-control" placeholder="Ingrese el contenido completo de la publicación">{{ old('body', $post->body) }}</textarea>
+              <textarea name="body" id="editor" rows="10" class="form-control" placeholder="Ingrese el contenido completo de la publicación">{{ old('body', $post->body) }}</textarea>
               {!! $errors->first('body','<span class="help-block">:message</span>') !!}
+            </div>
+            <div class="form-group {{ $errors->has('iframe') ? 'has-error' : '' }}">
+              <label for="">Contenido embebido (iframe "width=100%" y "height=480")</label>
+              <textarea name="iframe" id="editor" cols="2"  class="form-control" placeholder="Ingresa contenido embebido(iframe) de audio o video">{{ old('iframe', $post->iframe) }}</textarea>
+              {!! $errors->first('iframe','<span class="help-block">:message</span>') !!}
             </div>
           </div>
       </div>
@@ -88,6 +111,7 @@
       </div>
     </div> 
   </form>
+  
 </div>
 @endsection
 
@@ -116,15 +140,24 @@
 
     $('.select2').select2();
     CKEDITOR.replace('editor');
+    CKEDITOR.config.height = 320;
 
-    new Dropzone('.dropzone',{
+    var myDropzone = new Dropzone('.dropzone',{
         url:'/admin/posts/{{ $post->url }}/photos',
+        acceptedFiles: 'image/*',
+        maxFilessize: 2,
+        paramName: 'photo',
         headers: {
             'X-CSRF-TOKEN' : '{{ csrf_token() }}'
         },
         dictDefaultMessage: 'Arrastra las fotos aquí para subirlas'
     });
 
+    myDropzone.on('error', function(file, res){
+      var msg = res.errors.photo[0];
+      $('.dz-error-message:last > span').text(msg);
+      //console.log(res);
+    });
     Dropzone.autoDiscover = false;
   </script>
 @endpush

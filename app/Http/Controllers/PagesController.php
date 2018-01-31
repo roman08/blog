@@ -14,7 +14,7 @@ class PagesController extends Controller
     public function index()
     {
 
-        $posts = Post::published()->get();
+        $posts = Post::published()->paginate(10);
         return view('welcome')->with(compact('posts'));
     }
 
