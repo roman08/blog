@@ -35,5 +35,13 @@ class Post extends Model
 
     }
 
+        //mutador
+    public function setTitleAttribute($title)
+    {
+        $this->attributes['title'] = $title;
+        $this->attributes['url'] = str_slug($title);
+
+    }
+
 
 }

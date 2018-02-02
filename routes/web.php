@@ -13,6 +13,9 @@
 
 Route::get('/', 'PagesController@index')->name('home');
 Route::get('/blog/{post}','PostController@show')->name('posts.show');
+Route::get('/categorias/{category}','CategoriesController@show')->name('category.show');
+Route::get('/tags/{tag}','TagsController@show')->name('tag.show');
+
 
 //Rutas de administración
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function(){

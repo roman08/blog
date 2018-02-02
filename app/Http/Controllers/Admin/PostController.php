@@ -38,9 +38,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, ['title' => 'required']);
-        $post = Post::create([
-            'title' => $request->get('title'),
-            'url' => str_slug($request->get('title'))]);
+        $post = Post::create($request->only('title'));
         return redirect()->route('admin.post.edit', $post);
 
     }
@@ -119,7 +117,6 @@ class PostController extends Controller
             ]);
 
         $post->title = $request->title;
-        $post->url = str_slug($request->title);
         $post->body = $request->body;
         $post->iframe = $request->iframe;
         $post->excerpt = $request->excerpt;
