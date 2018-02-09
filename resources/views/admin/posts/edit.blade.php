@@ -69,9 +69,9 @@
               <input name="published_at" type="text" class="form-control pull-right" id="datepicker" value="{{ old('published_at', $post->published_at ? $post->published_at->format('m/d/Y') : null) }}">
             </div>
           </div>
-          <div class="form-group {{ $errors->has('category') ? 'has-error' : '' }}">
+          <div class="form-group {{ $errors->has('category_id') ? 'has-error' : '' }}">
             <label for="">Categorías</label>
-            <select name="category" id="" class="form-control">
+            <select name="category_id" id="" class="form-control select2">
               <option value="">Selecciona una categoría</option>
               @foreach ($categories as $category)
                 <option value="{{ $category->id}}"
@@ -138,7 +138,9 @@
       autoclose: true
     });
 
-    $('.select2').select2();
+    $('.select2').select2({
+      tags: true
+    });
     CKEDITOR.replace('editor');
     CKEDITOR.config.height = 320;
 

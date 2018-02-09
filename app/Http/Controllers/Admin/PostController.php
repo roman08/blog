@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-
 use Carbon\Carbon;
-
 use App\Category;
 use App\Post;
 use App\Tag;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePostRequest;
+
 class PostController extends Controller
 {
     /**
@@ -106,25 +107,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(StorePostRequest $request, Post $post)
     {
-        $this->validate($request,[
-            'title' => 'required',
-            'body' => 'required',
-            'category' => 'required',
-            'excerpt' => 'required',
-            'tags' => 'required'
-            ]);
+        $post->update($request->all());
 
-        $post->title = $request->title;
-        $post->body = $request->body;
-        $post->iframe = $request->iframe;
-        $post->excerpt = $request->excerpt;
-        $post->published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
-        $post->category_id = $request->category;
-        $post->save();
+        $post->syncTags($request->get('tags'));
 
-        $post->tags()->sync($request->tags);
 
         return redirect()->route('admin.post.edit', $post)->with('flash','Tu publicación ha sido guardada');
     }
