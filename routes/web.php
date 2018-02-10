@@ -20,13 +20,16 @@ Route::get('/tags/{tag}','TagsController@show')->name('tag.show');
 //Rutas de administración
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function(){
     
-    Route::name('index.posts')->get('/posts','PostController@index');
+    
     Route::name('admin.index')->get('/', 'AdminController@index');
+
+    Route::name('index.posts')->get('/posts','PostController@index');
     Route::name('admin.post.create')->get('/posts/create','PostController@create');
     Route::name('admin.post.store')->post('/posts/store','PostController@store');
+    Route::name('admin.post.edit')->get('/posts/edit/{post}','PostController@edit');
+    Route::name('admin.post.update')->put('/posts/update/{post}','PostController@update');
+    Route::name('admin.posts.destroy')->delete('/posts/{post}/','PostController@destroy');
 
-    Route::name('admin.post.edit')->get('/post/edit/{post}','PostController@edit');
-    Route::name('admin.post.update')->put('/post/update/{post}','PostController@update');
     Route::name('admin.post.photos.store')->post('/posts/{post}/photos','PhotosController@store');
     Route::name('admin.photos.destroy')->delete('/photos/{photo}/destroy','PhotosController@destroy');
     

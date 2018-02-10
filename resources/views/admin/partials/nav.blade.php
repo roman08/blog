@@ -10,7 +10,12 @@
     </a>
     <ul class="treeview-menu ">
       <li {{ request()->is('admin/posts') ? 'class = active' : '' }}><a href="{{ route('index.posts') }}"><i class="fa fa-eye"> </i>Ver todos los blogs</a></li>
-      <li {{ request()->is('admin/posts/create') ? 'class = active' : '' }}><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil"> </i>Crear blog</a></li>
+      
+      @if(request()->is('admin/posts*'))
+        <li {{ request()->is('admin/posts/create') ? 'class = active' : '' }}><a href="{{ route('index.posts','#create') }}" ><i class="fa fa-pencil"> </i>Crear blog</a></li>
+      @else
+        <li {{ request()->is('admin/posts/create') ? 'class = active' : '' }}><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil"> </i>Crear blog</a></li>
+      @endif
     </ul>
   </li>
 </ul>

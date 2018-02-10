@@ -38,7 +38,8 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, ['title' => 'required']);
+        $this->validate($request, [
+            'title' => 'required|min:3']);
         $post = Post::create($request->only('title'));
         return redirect()->route('admin.post.edit', $post);
 
@@ -123,8 +124,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+
+        $post->delete();
+
+        return redirect()->route('index.posts')->with('flash','La publicación ha sido eliminada');
     }
 }

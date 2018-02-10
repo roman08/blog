@@ -10,21 +10,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>{{ config('app.name') }}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="/adminlte/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ asset('/adminlte/bootstrap/dist/css/bootstrap.min.css') }}">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="/adminlte/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{{ asset('/adminlte/font-awesome/css/font-awesome.min.css') }}">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="/adminlte/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="{{ asset('/adminlte/Ionicons/css/ionicons.min.css') }}">
 
 
   
   @stack('styles')
   <!-- Theme style -->
-  <link rel="stylesheet" href="/adminlte/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="{{ asset('/adminlte/css/AdminLTE.min.css') }}">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
-  <link rel="stylesheet" href="/adminlte/css/skins/skin-blue.min.css">
+  <link rel="stylesheet" href="{{ asset('/adminlte/css/skins/skin-blue.min.css') }}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -379,15 +379,19 @@ desired effect
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
-<script src="/adminlte/jquery/dist/jquery.min.js"></script>
+<script src="{{ asset('/adminlte/jquery/dist/jquery.min.js') }}"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="/adminlte/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="{{ asset('/adminlte/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
 
 
   
 <!-- AdminLTE App -->
-<script src="/adminlte/js/adminlte.min.js"></script>
+<script src="{{ asset('/adminlte/js/adminlte.min.js') }}"></script>
+@unless(request()->is('admin/posts/edit/*'))
+  @include('admin.posts.create') 
+@endunless
+
 @stack('scripts')
 <!-- page script -->
 <script>
@@ -403,6 +407,8 @@ desired effect
     })
   })
 </script>
-  @include('admin.posts.create')
+ 
+
+
 </body>
 </html>

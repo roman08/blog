@@ -41,7 +41,13 @@ class Post extends Model
     public function setTitleAttribute($title)
     {
         $this->attributes['title'] = $title;
-        $this->attributes['url'] = str_slug($title);
+        $url = str_slug($title);
+        $duplicatUrlCount = Post::where('url','LIKE', "{$url}%")->count();
+        if($duplicatUrlCount)
+        {
+            $url .= "-". ++$duplicatUrlCount;
+        }
+        $this->attributes['url'] = $url;
 
     }
 
@@ -64,5 +70,15 @@ class Post extends Model
         });
 
         $this->tags()->sync($tagsIds);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($post){
+            $post->tags()->detach();
+            $post->photos->each->delete();
+        });
     }
 }
