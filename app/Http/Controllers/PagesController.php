@@ -15,7 +15,7 @@ class PagesController extends Controller
     {
 
         $posts = Post::published()->paginate(10);
-        return view('welcome')->with(compact('posts'));
+        return view('pages.home')->with(compact('posts'));
     }
 
     /**
@@ -82,5 +82,22 @@ class PagesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function about()
+    {
+        return view('pages.about');
+    }
+
+
+    public function archive()
+    {
+        return view('pages.archive');
+    }
+
+
+    public function contact()
+    {
+        return view('pages.contact');
     }
 }

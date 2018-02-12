@@ -46,7 +46,11 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('posts.show')->with(compact('post'));
+/*        if($post->isPublished() || auth()->check())
+        {
+            return view('posts.show')->with(compact('post'));
+        }*/
+        abort(404);
     }
 
     /**

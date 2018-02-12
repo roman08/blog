@@ -37,8 +37,14 @@ class Post extends Model
 
     }
 
-        //mutador
-    public function setTitleAttribute($title)
+    public function isPublished()
+    {
+        return ! is_null($this->published_at) && $this->published_at < today();
+    }
+
+            //mutador
+
+    /*public function setTitleAttribute($title)
     {
         $this->attributes['title'] = $title;
         $url = str_slug($title);
@@ -49,7 +55,7 @@ class Post extends Model
         }
         $this->attributes['url'] = $url;
 
-    }
+    }*/
 
     public function setPublishedAtAttribute($published_at)
     {
@@ -80,5 +86,27 @@ class Post extends Model
             $post->tags()->detach();
             $post->photos->each->delete();
         });
+    }
+
+    public static function create(array $attributes = []){
+        
+        $post = static::query()->create($attributes);
+
+        $post->generateUrl();
+        
+
+        return $post;
+    }
+
+    public function generateUrl()
+    {
+        $url = str_slug($this->title);
+        if ($this->whereUrl($url)->exists()) {
+            $url = "{$url}-{$this->id}";
+        }
+        
+        $this->url = $url;
+        
+        $this->save();
     }
 }

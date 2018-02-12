@@ -12,7 +12,7 @@ class CategoriesController extends Controller
         //carga directamente la relacion en el metodo load
         //return $category->load('posts');
        // return $category->posts;
-        return view('welcome', [
+        return view('pages.home', [
             'title' => "Publicaciones de la categoría  $category->name ",
             'posts' => $category->posts()->paginate()
             ]);
