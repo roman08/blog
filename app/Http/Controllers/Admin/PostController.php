@@ -20,7 +20,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        //$posts = Post::all();
+        $posts = auth()->user()->posts;
         return view('admin.posts.index')->with(compact('posts'));
     }
 
@@ -31,6 +32,7 @@ class PostController extends Controller
      */
     public function create()
     {
+
         $categories = Category::all();
         $tags = Tag::all();
         return view('admin.posts.create')->with(compact('categories','tags'));
@@ -38,9 +40,12 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required|min:3']);
-        $post = Post::create($request->only('title'));
+        $this->authorize('create', new Post);
+        $this->validate($request, ['title' => 'required|min:3']);
+
+        //$post = Post::create($request->only('title'));
+        
+        $post = Post::create($request->all());
        
         return redirect()->route('admin.post.edit', $post);
 
@@ -97,9 +102,13 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $categories = Category::all();
-        $tags = Tag::all();
-        return view('admin.posts.edit')->with(compact('categories','tags','post'));
+        $this->authorize('view',$post);
+
+        return view('admin.posts.edit',[
+                'post' => $post,
+                'tags' => Tag::all(),
+                'categories' => Category::all()
+            ]);
     }
 
     /**
@@ -111,6 +120,8 @@ class PostController extends Controller
      */
     public function update(StorePostRequest $request, Post $post)
     {
+        $this->authorize('update',$post);
+
         $post->update($request->all());
 
         $post->syncTags($request->get('tags'));
@@ -127,7 +138,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-
+        $this->authorize('delete',$post);
         $post->delete();
 
         return redirect()->route('index.posts')->with('flash','La publicación ha sido eliminada');

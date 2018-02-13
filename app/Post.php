@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
 	protected $fillable = [
-        'title', 'body', 'iframe', 'excerpt', 'published_at', 'category_id', 
+        'title', 'body', 'iframe', 'excerpt', 'published_at', 'category_id', 'user_id' 
         ];
     protected $dates = ['published_at'];
 
@@ -28,6 +28,11 @@ class Post extends Model
     public function photos()
     {
         return $this->hasMany(Photo::class);
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
     public function scopePublished($query)
     {
@@ -90,6 +95,7 @@ class Post extends Model
 
     public static function create(array $attributes = []){
         
+        $attributes['user_id'] = auth()->id();
         $post = static::query()->create($attributes);
 
         $post->generateUrl();
@@ -108,5 +114,18 @@ class Post extends Model
         $this->url = $url;
         
         $this->save();
+    }
+
+    public function viewType($home = '')
+    {
+        if ($this->photos->count() === 1):
+            return 'posts.photos';
+        elseif($this->photos->count() > 1):
+            return $home === 'home' ? 'posts.carousel-preview' : 'posts.carousel';
+        elseif($this->iframe):
+            return 'posts.iframe';
+        else:
+            return 'posts.text';
+        endif;
     }
 }
