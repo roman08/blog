@@ -5,7 +5,7 @@
     <div class="page page-about">
         <h1 class="text-capitalize">Página no encontrada</h1>
 
-        <p><a href="{{ route('pages.home') }}">Regresar al inicio</a></p>
+        <p>Regresar al <a href="{{ route('pages.home') }}">inicio</a></p>
     </div>
 </section>
 @endsection

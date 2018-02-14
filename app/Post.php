@@ -35,11 +35,23 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
     public function scopePublished($query)
+
     {
         $query->whereNotNull('published_at')
                 ->where('published_at', '<=', Carbon::now())
                 ->latest('published_at');
 
+    }
+
+    public function scopeAllowed($query)
+    {
+        if( auth()->user()->can('view', $this))
+        {
+            return $query;
+        }
+        
+        return  $query->where('user_id',auth()->id());
+        
     }
 
     public function isPublished()

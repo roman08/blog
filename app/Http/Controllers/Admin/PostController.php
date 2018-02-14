@@ -21,7 +21,8 @@ class PostController extends Controller
     public function index()
     {
         //$posts = Post::all();
-        $posts = auth()->user()->posts;
+
+        $posts = Post::allowed()->get();
         return view('admin.posts.index')->with(compact('posts'));
     }
 
@@ -50,38 +51,6 @@ class PostController extends Controller
         return redirect()->route('admin.post.edit', $post);
 
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-   /* public function store(Request $request)
-    {
-        //dd($request->all());
-        //validaion
-        $this->validate($request,[
-            'title' => 'required',
-            'body' => 'required',
-            'category' => 'required',
-            'excerpt' => 'required',
-            'tags' => 'required'
-            ]);
-        $post = new Post;
-
-        $post->title = $request->title;
-        $post->url = str_slug($request->title);
-        $post->body = $request->body;
-        $post->excerpt = $request->excerpt;
-        $post->published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
-        $post->category_id = $request->category;
-        $post->save();
-
-        $post->tags()->attach($request->tags);
-
-        return back()->with('flash','Tu publicación ha sido creada');
-               
-    }*/
 
     /**
      * Display the specified resource.
@@ -102,7 +71,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $this->authorize('view',$post);
+        $this->authorize('update',$post);
 
         return view('admin.posts.edit',[
                 'post' => $post,
