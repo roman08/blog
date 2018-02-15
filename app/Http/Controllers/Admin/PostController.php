@@ -110,6 +110,6 @@ class PostController extends Controller
         $this->authorize('delete',$post);
         $post->delete();
 
-        return redirect()->route('index.posts')->with('flash','La publicación ha sido eliminada');
+        return redirect()->route('admin.post.index')->with('flash','La publicación ha sido eliminada');
     }
 }
