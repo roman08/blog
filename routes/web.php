@@ -36,6 +36,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::name('admin.post.update')->put('/posts/update/{post}','PostController@update');
     Route::name('admin.posts.destroy')->delete('/posts/{post}/','PostController@destroy');
 
+    Route::name('admin.users.rol.update')->put('users/{user}/roles','UsersRolesController@update');
+    Route::name('admin.users.permissions.update')->put('users/{user}/permissions','UsersPermissionsController@update');
+
+
     Route::resource('users','UsersController',['as' => 'admin']);
 
     Route::name('admin.post.photos.store')->post('/posts/{post}/photos','PhotosController@store');

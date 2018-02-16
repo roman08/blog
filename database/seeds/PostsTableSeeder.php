@@ -39,7 +39,7 @@ class PostsTableSeeder extends Seeder
         $admin = new User;
         $admin->name = 'Varekay';
         $admin->email = 'rmcentinela@gmail.com';
-        $admin->password = bcrypt('123456');
+        $admin->password = '123456';
         $admin->save();
 
         $admin->assignRole($adminRol);
@@ -47,7 +47,7 @@ class PostsTableSeeder extends Seeder
         $writer = new User;
         $writer->name = 'Tsubasa';
         $writer->email = 'tsubasa_80@hotmail.com';
-        $writer->password = bcrypt('123456');
+        $writer->password = b'123456';
         $writer->save();
 
         $writer->assignRole($writerRol);

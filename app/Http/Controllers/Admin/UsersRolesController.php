@@ -4,13 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateUserRequest;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-
 use App\User;
-
-class UsersController extends Controller
+class UsersRolesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +14,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('admin.users.index')->with(compact('users'));
+        //
     }
 
     /**
@@ -30,7 +24,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        //
     }
 
     /**
@@ -50,9 +44,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
-        return view('admin.users.show',compact('user'));
+        //
     }
 
     /**
@@ -61,11 +55,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        $roles = Role::with('permissions')->get();
-        $permissions = Permission::pluck('name','id');
-        return view('admin.users.edit',compact('user','roles','permissions'));
+        //
     }
 
     /**
@@ -75,13 +67,14 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
+        $user->roles()->detach();
+        if ($request->filled('roles')) {
+             $user->assignRole($request->roles);
+        }
 
-        
-
-        $user->update($request->validate());
-        return back()->withFlash('Usuario actualizado');
+        return back()->withFlash('Los roles han sido actualizados');
     }
 
     /**
